@@ -117,12 +117,6 @@ int traziPrez(pozicija p)
 int brisi(pozicija p)
 {
 	pozicija pret = NULL;
-	pret = (pozicija)malloc(sizeof(struct osoba));
-	if (pret == NULL)
-	{
-		printf("Neuspjesna alokacija memorije!\n");
-		return 1;
-	}
 	char prez[30];
 	printf("Unesi prezime osobe koju zelis izbrisati:\n");
 	scanf(" %s", &prez);
@@ -131,7 +125,7 @@ int brisi(pozicija p)
 		pret = p;
 		p = p->next;
 	}
-	if (pret != NULL)
+	if (pret != NULL && strcmp(prez, p->prezime) == 0)
 	{
 		p = pret->next;
 		pret->next = p->next;
