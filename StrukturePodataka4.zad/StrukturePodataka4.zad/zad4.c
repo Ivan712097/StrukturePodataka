@@ -12,15 +12,16 @@ int unosPrvi(pozicija);
 int unosDrugi(pozicija);
 int ispis(pozicija);
 int zbroj(pozicija, pozicija, pozicija);
+int umnozak(pozicija, pozicija, pozicija);
 int main() {
 	struct polinom Head1;
 	struct polinom Head2;
 	struct polinom HeadZ;
-	struct polinom Head4;
+	struct polinom HeadM;
 	Head1.next = NULL;
 	Head2.next = NULL;
 	HeadZ.next = NULL;
-	Head4.next = NULL;
+	HeadM.next = NULL;
 	unosPrvi(&Head1);
 	unosDrugi(&Head2);
 	printf("Ispis prvog polinoma:\n");
@@ -30,6 +31,9 @@ int main() {
 	zbroj(&Head1, &Head2, &HeadZ);
 	printf("Ispis zbrojenog polinoma:\n");
 	ispis(HeadZ.next);
+	umnozak(&Head1, &Head2, &HeadM);
+	printf("Ispis pomnozenih polinoma:\n");
+	ispis(HeadM.next);
 	return 0;
 }
 int unosPrvi(pozicija p)
@@ -168,5 +172,36 @@ int zbroj(pozicija p, pozicija q, pozicija r)
 		r = s;
 		temp = temp->next;
 	}
+	return 0;
+}
+int umnozak(pozicija p, pozicija q, pozicija r)
+{
+	pozicija prvi = p->next;
+	pozicija drugi = q->next;
+	struct polinom P;
+	pozicija s = NULL;
+	s = (pozicija)malloc(sizeof(struct polinom));
+	if (s == NULL)
+	{
+		printf("Neuspjesna alokacija memorije!\n");
+		return 1;
+	}
+	s->next = NULL;
+	P.next = s;
+	while (prvi != NULL)
+	{
+		drugi = q->next;
+		while (drugi != NULL)
+		{
+
+			s->koeficijent = prvi->koeficijent * drugi->koeficijent;
+			s->eksponent = prvi->eksponent + drugi->eksponent;
+
+			zbroj(&P, r, r);
+			drugi = drugi->next;
+		}
+		prvi = prvi->next;
+	}
+
 	return 0;
 }
