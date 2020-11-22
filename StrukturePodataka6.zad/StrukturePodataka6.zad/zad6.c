@@ -105,12 +105,6 @@ int push(pozicija p)
 int pop(pozicija p)
 { //skidamo s pocetka
 	pozicija q = NULL;
-	q = (pozicija)malloc(sizeof(struct cvor));
-	if (q == NULL)
-	{
-		printf("Neuspjesna alokacija memorije!\n");
-		return 1;
-	}
 	if (p->next == NULL)
 		printf("Nisi jos dodao niti jedan element!\n");
 	else
@@ -131,7 +125,7 @@ int pushR(pozicija p)
 		printf("Neuspjesna alokacija memorije!\n");
 		return 1;
 	}
-	static pozicija kraj = NULL;
+	 pozicija kraj = NULL;
 	if (p->next == NULL)
 		kraj = p;
 	int broj = (rand() % (MAX - MIN + 1)) + MIN;
