@@ -32,25 +32,28 @@ int dat(pozicija head)
 	if (fp == NULL)
 	{
 		printf("Neuspjesno otvaranje datoteke!\n");
-			return 1;
+		return 1;
 	}
 	while (!feof(fp))
 	{
-		fscanf(fp,"%s", operacija);
-		if (!strcmp(operacija, "+"))
-			zbroj(head);
-		else if (!strcmp(operacija, "-"))
-			razlika(head);
-		else if (!strcmp(operacija, "*"))
-			umnozak(head);
-		else if (!strcmp(operacija, "/"))
-			kvocijent(head);
+		int br = 0;
+		int procitani = sscanf(fp, "%d", &br);
+		if (!procitani) {
+			if (!strcmp(procitani, "+"))
+				zbroj(head);
+			else if (!strcmp(procitani, "-"))
+				razlika(head);
+			else if (!strcmp(procitani, "*"))
+				umnozak(head);
+			else if (!strcmp(procitani, "/"))
+				kvocijent(head);
+		}
 		else
-			push(head, atoi(operacija));
+			push(head, procitani);
 	}
 	fclose(fp);
 	return 0;
-	
+
 }
 int push(pozicija head, int element)
 {
