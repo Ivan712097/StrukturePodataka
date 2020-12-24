@@ -4,6 +4,7 @@
 #include<string.h>
 
 
+
 #define MAX_DIR_LENGTH 256
 
 typedef struct dir* Position;
@@ -47,15 +48,16 @@ int main()
 }
 Position PopStack(StackPosition stackHead)
 {
-	StackPosition tempStackElement = stackHead->next;
+	StackPosition tempStackElement = stackHead->next, prev = stackHead->next;
 	if (!tempStackElement->next)
 		return NULL;
 	while (tempStackElement->next)
 	{
+		prev = tempStackElement;
 		tempStackElement = tempStackElement->next;
 	}
 		Position directory = tempStackElement->data;
-		stackHead->next->next = tempStackElement->next;
+		prev->next = tempStackElement->next;
 		free(tempStackElement);
 		return directory;
 }
@@ -167,21 +169,21 @@ void Remove(Position current)
 }
 int Path(Position current, StackPosition stackHead)
 {
-		char stringToPrint[MAX_DIR_LENGTH] = "";
-		//strcat(stringToPrint, current->name);
-		while (stackHead)
-		{
+	char stringToPrint[MAX_DIR_LENGTH] = "";
+	//strcat(stringToPrint, current->name);
+	while (stackHead)
+	{
 			strcat(stringToPrint, stackHead->data->name);
 			strcat(stringToPrint, "\\");
 			stackHead = stackHead->next;
-		}
-		strcat(stringToPrint, ">");
-		printf("%s ", stringToPrint);
+	}
+	strcat(stringToPrint, ">");
+	printf("%s ", stringToPrint);
 	return 0;
 }
 int CommandPrompt(Position current, StackPosition stackHead)
 {
-	
+	Position C = current;
 	char userInput[MAX_DIR_LENGTH];
 	char command[5];
 	char directoryName[MAX_DIR_LENGTH];
@@ -191,17 +193,18 @@ int CommandPrompt(Position current, StackPosition stackHead)
 		sscanf(userInput, "%s %s", command, directoryName);
 		if (!strcmp(command, "md"))
 		{
-			MakeDirectory(current, directoryName);
+			current = MakeDirectory(current, directoryName);
 			Path(current, stackHead->next);
 		}
 		else if (!strcmp(command, "cd"))
 		{
-				current = ChangeDirectory(current, stackHead, directoryName);
-				Path(current, stackHead->next);
+			current = ChangeDirectory(current, stackHead, directoryName);
+			Path(current, stackHead->next);
 		}
 		else if (!strcmp(command, "cd.."))
 		{
-			ChangeToPreviousDirectory(stackHead);
+			if (current = ChangeToPreviousDirectory(stackHead) == NULL)
+				current = C;
 			Path(current, stackHead->next);
 		}
 		else if (!strcmp(command, "dir"))
