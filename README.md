@@ -1,1 +1,1 @@
-# Strukture-podataka
+Repository for Data Structures 
